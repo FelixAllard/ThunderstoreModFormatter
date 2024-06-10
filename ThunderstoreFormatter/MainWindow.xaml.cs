@@ -25,7 +25,7 @@ public partial class MainWindow : Window
 {
     public List<Profile> currentPaths { get; set; } = new List<Profile>();
     public List<Mod> allRegisteredMods { get; set; } = new List<Mod>();
-    public List<CheckBoxItem> checkBoxItems { get; set; } = new List<CheckBoxItem>();
+    public List<CheckBoxItem> checkBoxItems { get; set; }
     
     public MainWindow()
     {

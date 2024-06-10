@@ -16,4 +16,9 @@ public class NumberOfEachCategory
         get => number;
         set => number = value;
     }
+
+    public void AddOne()
+    {
+        number += 1;
+    }
 }

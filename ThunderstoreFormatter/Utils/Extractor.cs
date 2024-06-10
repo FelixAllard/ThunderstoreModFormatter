@@ -30,11 +30,15 @@ public static class Extractor
                     JObject manifestObject = JObject.Parse(manifestContent);
 
                     // Retrieve the "name" field from the manifest
+                    
                     string name = manifestObject["name"]?.ToString();
+                    string _namespace = manifestObject["namespace"]?.ToString();
                     if (!string.IsNullOrEmpty(name))
                     {
                         manifestNames.Add(name);
+                        Database.GetModInfo(name, _namespace);
                     }
+                    
                 }
                 catch (Exception ex)
                 {
