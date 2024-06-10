@@ -34,6 +34,7 @@
         </Style>
     </Window.Resources>
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -47,6 +48,7 @@
                       Height="350"
                       HorizontalAlignment="Left"
                       Margin="45,45,5,0">
+                
                 <ListView.View>
                     <GridView>
                         <GridViewColumn 
@@ -120,15 +122,53 @@
                 Click="AddProfileButton_OnClick"
                 />
             <Button 
+                x:Name="ShowButton"
                 Content="Show" 
                 Width="100" 
-                Margin="0"/>
+                Margin="0"
+                Click="ButtonShow_OnClick"
+                />
             
         </StackPanel>
         <StackPanel
             HorizontalAlignment="Right"
-            Width="50"
+            Width="200"
+            
             >
+            <TextBox 
+                x:Name="FinalResult"
+                Text="Your code here..." 
+                     IsReadOnly="True" 
+                     BorderBrush="LightGray" 
+                     Background="LightGray" 
+                     Foreground="Black" 
+                     HorizontalScrollBarVisibility="Auto" 
+                     VerticalScrollBarVisibility="Auto" 
+                     FontFamily="Consolas" 
+                     FontSize="12" 
+                     Margin="10" 
+                     Padding="5" 
+                     TextWrapping="Wrap" 
+                     AcceptsReturn="True"
+                     Height="350"
+                     />
+            <Button
+                x:Name="CopyButton"
+                Height="30"
+                Content="Copy String!"
+                Click="CopyButton_OnClick"
+                >
+                
+            </Button>
+            
+        </StackPanel>
+        <StackPanel>
+            <Label 
+                Content="Lethal Profile Parser [BETA]" 
+                Foreground="White"
+                FontSize="30"
+            />
+                
             
         </StackPanel>
         

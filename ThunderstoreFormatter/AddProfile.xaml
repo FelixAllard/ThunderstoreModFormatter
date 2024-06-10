@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ThunderstoreFormatter"
         mc:Ignorable="d"
-        Title="AddProfile" Height="100" Width="400">
+        Title="AddProfile" Height="150" Width="400">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="Black" Offset="0.0"/>

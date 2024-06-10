@@ -13,6 +13,7 @@ using Microsoft.Data.Sqlite;
 using ThunderstoreFormatter.DataClass;
 using ThunderstoreFormatter.SQLite.DatabaseContext;
 using ThunderstoreFormatter.SQLite.Model;
+using ThunderstoreFormatter.Utils;
 
 namespace ThunderstoreFormatter;
 
@@ -34,8 +35,6 @@ public partial class MainWindow : Window
         
         
         InitializeComponent();
-        
-            
             
         //TODO fix this thing here, this is the tag checkboxes
          checkBoxItems = new List<CheckBoxItem>
@@ -73,6 +72,7 @@ public partial class MainWindow : Window
             }
         }
         ViewProfile.ItemsSource = currentPaths;
+        ViewProfile.Items.Refresh();
     }
     private void StartQuerrying_OnClick(object sender, RoutedEventArgs e)
     {
@@ -119,4 +119,31 @@ public partial class MainWindow : Window
             RetrieveInformationDatabase();
         }
     }
+
+    private void ButtonShow_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (ViewProfile.SelectedItem != null)
+        {
+            // Get the selected item
+            Profile selectedProfile = ViewProfile.SelectedItem as Profile;
+
+            // Extract the ID of the selected item
+            String selectedProfileName = selectedProfile.Path;
+            List<String> allTheMods = Extractor.GetManifestNames(selectedProfileName);
+            FinalResult.Text = Formaters.FormatForDiscord(allTheMods);
+        }
+    }
+
+    private void CopyButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        Clipboard.SetText(FinalResult.Text);
+    }
+    /*private void MyWindow_Activated(object sender, EventArgs e)
+    {
+        // Code to execute when the window becomes the active window
+        Console.WriteLine("Window activated!");
+        RetrieveInformationDatabase();
+    }*/
+
+
 }
