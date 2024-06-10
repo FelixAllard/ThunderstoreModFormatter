@@ -14,7 +14,7 @@ namespace ThunderstoreFormatter.SQLite.DatabaseContext
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Profile>().HasData(
-                new Profile { ID = 1, ProfileName = "DefaultProfile", NumberMods = 0, Path = "default/path" }
+                new Profile { ID = 1, ProfileName = "DefaultProfile", NumberMods = 0, Path = "C/" }
             );
         }
     }
