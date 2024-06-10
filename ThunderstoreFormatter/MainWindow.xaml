@@ -168,6 +168,21 @@
                 Foreground="White"
                 FontSize="30"
             />
+
+                
+            
+        </StackPanel>
+        <StackPanel
+            >
+
+            <Button 
+                x:Name="Credits"
+                Content="Credits" 
+                Width="100" 
+                Margin="40,20,0,0"
+                Background="Yellow"
+                Click="Credits_OnClick"
+            />
                 
             
         </StackPanel>

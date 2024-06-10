@@ -42,10 +42,6 @@ public static class Extractor
                 }
             }
         }
-
         return manifestNames;
     }
-    
-    
-    
 }

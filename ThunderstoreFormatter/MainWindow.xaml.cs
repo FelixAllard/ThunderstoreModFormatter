@@ -39,8 +39,8 @@ public partial class MainWindow : Window
         //TODO fix this thing here, this is the tag checkboxes
          checkBoxItems = new List<CheckBoxItem>
         {
-            new CheckBoxItem { CheckboxText = "Checkbox 1", Number = "25" },
-            new CheckBoxItem { CheckboxText = "Checkbox 2", Number = "13" },
+            new CheckBoxItem { CheckboxText = "NOT YET IMPLEMENTED", Number = "1" },
+            new CheckBoxItem { CheckboxText = "Please do give me feedbacks on my github or on my discord!", Number = "2" },
             // Add more items as needed
         };
          
@@ -146,4 +146,12 @@ public partial class MainWindow : Window
     }*/
 
 
+    private void Credits_OnClick(object sender, RoutedEventArgs e)
+    {
+        //Giving Retrieve Information Database so that it is called after the information is saved
+        Credits popup = new Credits();
+        popup.Owner = this; // Set the owner window to enable proper modal behavior
+        popup.ShowDialog(); // Show the popup window
+        
+    }
 }
