@@ -164,7 +164,7 @@
         </StackPanel>
         <StackPanel>
             <Label 
-                Content="Lethal Profile Parser [BETA]" 
+                Content="Thunderstore Formater [BETA 1.0.0]" 
                 Foreground="White"
                 FontSize="30"
             />
@@ -179,7 +179,7 @@
                 x:Name="Credits"
                 Content="Credits" 
                 Width="100" 
-                Margin="40,20,0,0"
+                Margin="270,20,0,0"
                 Background="Yellow"
                 Click="Credits_OnClick"
             />

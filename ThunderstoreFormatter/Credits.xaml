@@ -32,7 +32,7 @@
                 />
             <TextBlock>
                 <Hyperlink NavigateUri="https://discordapp.com/users/491029255795376158" RequestNavigate="Hyperlink_RequestNavigate" Tag="_blank">
-                    Discord Server
+                    Discord User
                 </Hyperlink>
             </TextBlock>
             
