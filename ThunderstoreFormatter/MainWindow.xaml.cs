@@ -23,7 +23,7 @@ namespace ThunderstoreFormatter;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public List<Profile> currentPaths { get; set; } = new List<Profile>();
+    
     public List<Mod> allRegisteredMods { get; set; } = new List<Mod>();
     public List<CheckBoxItem> checkBoxItems { get; set; }
     
@@ -59,16 +59,7 @@ public partial class MainWindow : Window
 
     public void RetrieveInformationDatabase()
     {
-        using (var context = new ProfileDbContext())
-        {
-            currentPaths.Clear();  // Clear the list to avoid duplicate entries
-            currentPaths.AddRange(context. Profiles.ToList());  // Add the new data from the database
-            foreach (var profile in currentPaths)
-            {
-                Console.WriteLine($"ID: {profile.ID}, Name: {profile.ProfileName}, Mods: {profile.NumberMods}, Path: {profile.Path}");
-            }
-        }
-        ViewProfile.ItemsSource = currentPaths;
+        ViewProfile.ItemsSource = ProfileDBMS.RetrieveAllFromDatabase();
         ViewProfile.Items.Refresh();
     }
     public void RetrieveModsDatabase()
@@ -100,32 +91,19 @@ public partial class MainWindow : Window
         {
             // Get the selected item
             Profile selectedProfile = ViewProfile.SelectedItem as Profile;
-
-            // Extract the ID of the selected item
-            int selectedProfileId = selectedProfile.ID;
-
             // Remove the selected item from the database
-            using (var context = new ProfileDbContext())
-            {
-                var profileToRemove = context.Profiles.FirstOrDefault(p => p.ID == selectedProfileId);
-                if (profileToRemove != null)
-                {
-                    context.Profiles.Remove(profileToRemove);
-                    context.SaveChanges();
-                }
-
-                // Reset the auto-increment IDs (for SQLite)
-            }
-
-            // Remove the selected item from the collection
-            currentPaths.Remove(selectedProfile);
-
+            ProfileDBMS.DeleteProfileByProfile(selectedProfile);
             // Refresh the ListView
             ViewProfile.Items.Refresh();
             RetrieveInformationDatabase();
         }
     }
 
+    /// <summary>
+    /// The button to show all the mods!
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ButtonShow_OnClick(object sender, RoutedEventArgs e)
     {
         if (ViewProfile.SelectedItem != null)
@@ -134,8 +112,13 @@ public partial class MainWindow : Window
             Profile selectedProfile = ViewProfile.SelectedItem as Profile;
 
             // Extract the ID of the selected item
-            String selectedProfileName = selectedProfile.Path;
-            List<String> allTheMods = Extractor.GetManifestNames(selectedProfileName);
+            String selectedProfilePath = selectedProfile.Path;
+            //TODO remake this
+            List<String> allTheModsFullName = Extractor.GetManifestNames(selectedProfilePath);
+            List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName);
+            
+            
+            //Put the text to what it is
             FinalResult.Text = Formaters.FormatForDiscord(allTheMods);
         }
     }
@@ -165,15 +148,7 @@ public partial class MainWindow : Window
     /// </summary>
     private void InitialiseDatabaseIfNotExist()
     {
-        using (var context = new ProfileDbContext())
-        {
-            // Create the database if it doesn't exist
-            context.Database.EnsureCreated();
-        }
-        using (var context = new ModDbContext())
-        {
-            // Create the database if it doesn't exist
-            context.Database.EnsureCreated();
-        }
+        ProfileDBMS.InitializeDatabase();
+        ModDBMS.InitializeDatabase();
     }
 }

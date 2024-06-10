@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Forms;
 using ThunderstoreFormatter.SQLite.DatabaseContext;
 using ThunderstoreFormatter.SQLite.Model;
+using ThunderstoreFormatter.Utils;
 
 namespace ThunderstoreFormatter;
 
@@ -97,6 +98,8 @@ public partial class AddProfile : Window
             };
             context.Profiles.Add(profile);
             context.SaveChanges();
+            //This wil polute the database with mods
+            Extractor.PoluteDatabaseWithMods(profile.Path);
         }
         _onProfileAdded?.Invoke(); // Call the delegate
         this.Close();
