@@ -19,8 +19,13 @@
         <Style TargetType="Window">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Window">
-                        <Border Background="#333" BorderBrush="DarkGray" BorderThickness="1">
+                    <ControlTemplate 
+                        TargetType="Window">
+                        <Border 
+                            Background="#333"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            >
                             <ContentPresenter/>
                         </Border>
                     </ControlTemplate>
@@ -33,38 +38,65 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <ListView x:Name="ViewProfile"
-                  Width="300"
-                  Height="350"
-                  HorizontalAlignment="Left"
-                  Margin="45">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn 
-                        Header="ID" 
-                        Width="40"
+        <StackPanel
+            Orientation="Horizontal" 
+            VerticalAlignment="Top"
+            >
+            <ListView x:Name="ViewProfile"
+                      Width="300"
+                      Height="350"
+                      HorizontalAlignment="Left"
+                      Margin="45,45,5,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn 
+                            Header="ID" 
+                            Width="40"
+                            DisplayMemberBinding="{Binding ID}"
                         />
-                    <GridViewColumn 
-                        Header="ProfileName 2" 
-                        Width="160"
+                        <GridViewColumn 
+                            Header="Profile Name" 
+                            Width="160"
+                            DisplayMemberBinding="{Binding ProfileName}"
                         />
-                    <GridViewColumn 
-                        Header="Mods" 
-                        Width="40"
+                        <GridViewColumn 
+                            Header="NBR" 
+                            Width="40"
+                            DisplayMemberBinding="{Binding NumberMods}"
                         />
-                    <GridViewColumn
-                        Header="Path"
-                        Width="60"
+                        <GridViewColumn
+                            Header="Path"
+                            Width="60"
+                            DisplayMemberBinding="{Binding Path}"
                         />
-                    <!-- Add more columns as needed -->
-                </GridView>
-            </ListView.View>
-            <!-- Add items to the ListView -->
-            <ListViewItem>Item 1</ListViewItem>
-            <ListViewItem>Item 2</ListViewItem>
-            <!-- Add more items as needed -->
-        </ListView>
+                        <!-- Add more columns as needed -->
+                    </GridView>
+                </ListView.View>
+                <!-- Add items to the ListView -->
+                <!-- Add more items as needed -->
+            </ListView>
+            <ListBox 
+                Name="CheckBoxListBox" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="200" 
+                Height="200"
+                     
+                Background="White" 
+                BorderBrush="Black"
+                BorderThickness="1" 
+                Margin="0,45,0,0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{Binding CheckboxText}" Margin="5"/>
+                            <Label Content="{Binding Number}" Margin="5"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        
 
         <StackPanel 
             Orientation="Horizontal" 
@@ -72,21 +104,33 @@
             VerticalAlignment="Bottom" 
             Margin="45,0,0,0">
             <Button 
+                x:Name="Delete"
                 Content="Remove" 
                 Width="100" 
                 Margin="0"
                 Background="DarkRed"
+                Click="Delete_OnClick"
                 />
             <Button 
+                x:Name="AddProfileButton"
                 Content="Add" 
                 Width="100" 
                 Margin="0"
                 Background="GreenYellow"
+                Click="AddProfileButton_OnClick"
                 />
             <Button 
                 Content="Show" 
                 Width="100" 
                 Margin="0"/>
+            
         </StackPanel>
+        <StackPanel
+            HorizontalAlignment="Right"
+            Width="50"
+            >
+            
+        </StackPanel>
+        
     </Grid>
 </Window>
