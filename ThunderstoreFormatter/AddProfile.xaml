@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AddProfile" Height="150" Width="400" ResizeMode="NoResize">
     <Window.Icon>
-        <BitmapImage UriSource="C:\Users\Felix\Desktop\LethalCompany\ThunderstoreFormatter\ThunderstoreFormatter\Ressources\Images\LethalBestiary.png"/>
+        <BitmapImage UriSource="C:\Users\Felix\Desktop\LethalCompany\ThunderstoreFormatter\ThunderstoreFormatter\Ressources\Images\Icon.png"/>
     </Window.Icon>
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">

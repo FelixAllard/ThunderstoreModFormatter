@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Credits" Height="250" Width="200" ResizeMode="NoResize">
     <Window.Icon>
-        <BitmapImage UriSource="C:\Users\Felix\Desktop\LethalCompany\ThunderstoreFormatter\ThunderstoreFormatter\Ressources\Images\LethalBestiary.png"/>
+        <BitmapImage UriSource="C:\Users\Felix\Desktop\LethalCompany\ThunderstoreFormatter\ThunderstoreFormatter\Ressources\Images\Icon.png"/>
     </Window.Icon>
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
