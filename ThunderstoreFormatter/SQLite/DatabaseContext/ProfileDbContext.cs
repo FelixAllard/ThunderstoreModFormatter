@@ -13,9 +13,11 @@ namespace ThunderstoreFormatter.SQLite.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Profile>().HasData(
+            modelBuilder
+                .Entity<Profile>()
+                /*.HasData(
                 new Profile { ID = 1, ProfileName = "DefaultProfile", NumberMods = 0, Path = "C/" }
-            );
+            )*/;
         }
     }
 }

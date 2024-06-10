@@ -1,23 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ThunderstoreFormatter.SQLite.Model;
 
-namespace ThunderstoreFormatter.SQLite.DatabaseContext;
-
-public class ModDbContext : DbContext
+namespace ThunderstoreFormatter.SQLite.DatabaseContext
 {
-    public DbSet<Mod> Mods { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public class ModDbContext : DbContext
     {
-        optionsBuilder.UseSqlite("Data Source=mods.db");
-    }
+        public DbSet<Mod> Mods { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Mod>()
-            .Property(m => m.Categories)
-            .HasConversion(
-                v => string.Join(',', v),
-                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=mods.db");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Mod>()
+                .Property(m => m.Categories)
+                .HasConversion(
+                    v => string.Join(',', v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+        }
     }
 }
+

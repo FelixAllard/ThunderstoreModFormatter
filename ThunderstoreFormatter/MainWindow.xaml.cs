@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,19 +24,20 @@ namespace ThunderstoreFormatter;
 public partial class MainWindow : Window
 {
     public List<Profile> currentPaths { get; set; } = new List<Profile>();
+    public List<Mod> allRegisteredMods { get; set; } = new List<Mod>();
     public List<CheckBoxItem> checkBoxItems { get; set; } = new List<CheckBoxItem>();
     
     public MainWindow()
     {
+        //Initialize Database
         var connection = new SqliteConnection("Data Source = Sample.db");
 
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
 
         connection.Open();
-        
-        
+        //Initialise Page
         InitializeComponent();
-            
+        
         //TODO fix this thing here, this is the tag checkboxes
          checkBoxItems = new List<CheckBoxItem>
         {
@@ -51,12 +53,7 @@ public partial class MainWindow : Window
         CheckBoxListBox.ItemsSource = checkBoxItems;
         
         
-        
-        using (var context = new ProfileDbContext())
-        {
-            // Create the database if it doesn't exist
-            context.Database.EnsureCreated();
-        }
+        InitialiseDatabaseIfNotExist();
         RetrieveInformationDatabase();
     }
 
@@ -65,7 +62,7 @@ public partial class MainWindow : Window
         using (var context = new ProfileDbContext())
         {
             currentPaths.Clear();  // Clear the list to avoid duplicate entries
-            currentPaths.AddRange(context.Profiles.ToList());  // Add the new data from the database
+            currentPaths.AddRange(context. Profiles.ToList());  // Add the new data from the database
             foreach (var profile in currentPaths)
             {
                 Console.WriteLine($"ID: {profile.ID}, Name: {profile.ProfileName}, Mods: {profile.NumberMods}, Path: {profile.Path}");
@@ -74,11 +71,20 @@ public partial class MainWindow : Window
         ViewProfile.ItemsSource = currentPaths;
         ViewProfile.Items.Refresh();
     }
-    private void StartQuerrying_OnClick(object sender, RoutedEventArgs e)
+    public void RetrieveModsDatabase()
     {
-        throw new NotImplementedException();
+        using (var context = new ModDbContext())
+        {
+            allRegisteredMods.Clear();  // Clear the list to avoid duplicate entries
+            allRegisteredMods.AddRange(context.Mods.ToList());  // Add the new data from the database
+        }
+        Debug.WriteLine("We Registered all the mods");
     }
-
+    /// <summary>
+    /// Handles the add profile button from the FrontEnd
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void AddProfileButton_OnClick(object sender, RoutedEventArgs e)
     {
         //Giving Retrieve Information Database so that it is called after the information is saved
@@ -153,5 +159,21 @@ public partial class MainWindow : Window
         popup.Owner = this; // Set the owner window to enable proper modal behavior
         popup.ShowDialog(); // Show the popup window
         
+    }
+    /// <summary>
+    /// Will create the database if they do not exist
+    /// </summary>
+    private void InitialiseDatabaseIfNotExist()
+    {
+        using (var context = new ProfileDbContext())
+        {
+            // Create the database if it doesn't exist
+            context.Database.EnsureCreated();
+        }
+        using (var context = new ModDbContext())
+        {
+            // Create the database if it doesn't exist
+            context.Database.EnsureCreated();
+        }
     }
 }
