@@ -113,6 +113,7 @@ public partial class MainWindow : Window
             String selectedProfilePath = selectedProfile.Path;
             //TODO remake this
             List<String> allTheModsFullName = Extractor.GetManifestFullNames(selectedProfilePath); //OK
+            Http.AddAllToDatabase(allTheModsFullName).Wait();
             List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName); //NOT OK
             List<Category> categories = CategoriesHandles.GetAllCategory(allTheMods);
             

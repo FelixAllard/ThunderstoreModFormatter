@@ -66,6 +66,7 @@ public static class ModDBMS
             Mod? foundDatabseMod = GetModByFullName(fullName);
             if (foundDatabseMod != null)
             {
+                Console.WriteLine("WE RECEIVED + " + foundDatabseMod.FullName);
                 modList.Add(foundDatabseMod);
             }
         }
