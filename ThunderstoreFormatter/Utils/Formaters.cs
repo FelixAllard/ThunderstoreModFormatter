@@ -20,14 +20,15 @@ public static class Formaters
     
     public static string FormatForDiscord(Category category)
     {
-        String finalString = "```\n";
-        finalString += category.CategoryName + "\n";
+        String finalString = "";
+        finalString += "### " +category.CategoryName + "\n";
+        finalString += "```\n";
         foreach (var mod in category.Mods)
         {
             finalString += mod.ModName + "\n";
         }
 
-        finalString += "```";
+        finalString += "```\n";
         return finalString;
     }
     public static string FormatForDiscord(List<String> x)

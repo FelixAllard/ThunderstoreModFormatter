@@ -17,7 +17,12 @@ public class Http
             {
                 string firstPart = parts[0];
                 string secondPart = parts[1];
-                GetModInfo(firstPart, secondPart);
+
+                //Check if the mod is in the Database, if it is not, then get the thing online!
+                if (!ModDBMS.CheckIfModIsInDatabase(mod))
+                {
+                    GetModInfo(firstPart, secondPart);
+                }
                 Console.WriteLine("First part: " + firstPart);
                 Console.WriteLine("Second part: " + secondPart);
             }
@@ -46,17 +51,18 @@ public class Http
             HttpResponseMessage httpResponse = httpClient.GetAsync($"https://thunderstore.io/api/experimental/package/{nameSpace}/{packageName}/").GetAwaiter().GetResult();
             if (!httpResponse.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Error: {httpResponse.StatusCode}");
+                Console.WriteLine($"Error: {httpResponse.StatusCode} ");
                 // Handle the error accordingly
             }
             else
             {
+                //We get 200 OK
                 ExternalServiceResponse response = httpResponse.Content.ReadFromJsonAsync<ExternalServiceResponse>().GetAwaiter().GetResult();
+                
                 Console.WriteLine(response.Owner);
                 if (response != null)
                 {
-                    //TODO error when adding to database
-                        ModDBMS.AddModToDatabase(response).GetAwaiter().GetResult();
+                    ModDBMS.AddModToDatabase(response).GetAwaiter().GetResult();
                     
                 }
                 else

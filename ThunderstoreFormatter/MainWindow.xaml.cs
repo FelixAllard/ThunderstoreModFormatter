@@ -34,29 +34,23 @@ public partial class MainWindow : Window
         var connection = new SqliteConnection("Data Source = Sample.db");
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
         connection.Open();
-        
+        //Must be called 
+        CategoriesHandles.Init();
         
         //Initialise Page
         InitializeComponent();
         
-        //TODO fix this thing here, this is the tag checkboxes
-         checkBoxItems = new List<CheckBoxItem>
-        {
-            new CheckBoxItem { CheckboxText = "NOT YET IMPLEMENTED", Number = "1" },
-            new CheckBoxItem { CheckboxText = "Please do give me feedbacks on my github or on my discord!", Number = "2" },
-            // Add more items as needed
-        };
-         
-         
-        // Set the data context of the ListBox to the collection of items
-        CheckBoxListBox.ItemsSource = checkBoxItems;
+        
+        SetCheckboxes();
         
         
         InitialiseDatabaseIfNotExist();
+        ProfileDBMS.CheckAllProfile();
         RetrieveInformationDatabase();
     }
     public void RetrieveInformationDatabase()
     {
+        
         ViewProfile.ItemsSource = ProfileDBMS.RetrieveAllFromDatabase();
         ViewProfile.Items.Refresh();
     }
@@ -108,16 +102,12 @@ public partial class MainWindow : Window
         {
             // Get the selected item
             Profile selectedProfile = ViewProfile.SelectedItem as Profile;
-
             // Extract the ID of the selected item
             String selectedProfilePath = selectedProfile.Path;
-            //TODO remake this
             List<String> allTheModsFullName = Extractor.GetManifestFullNames(selectedProfilePath); //OK
             Http.AddAllToDatabase(allTheModsFullName).Wait();
-            List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName); //NOT OK
-            List<Category> categories = CategoriesHandles.GetAllCategory(allTheMods);
-            
-            
+            List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName); //OK
+            List<Category> categories = CategoriesHandles.GetAllCategory(allTheMods);//Ok
             //Put the text to what it is
             FinalResult.Text = Formaters.FormatForDiscord(categories);
         }
@@ -127,14 +117,6 @@ public partial class MainWindow : Window
     {
         Clipboard.SetText(FinalResult.Text);
     }
-    /*private void MyWindow_Activated(object sender, EventArgs e)
-    {
-        // Code to execute when the window becomes the active window
-        Console.WriteLine("Window activated!");
-        RetrieveInformationDatabase();
-    }*/
-
-
     private void Credits_OnClick(object sender, RoutedEventArgs e)
     {
         //Giving Retrieve Information Database so that it is called after the information is saved
@@ -150,6 +132,12 @@ public partial class MainWindow : Window
     {
         ProfileDBMS.InitializeDatabase();
         ModDBMS.InitializeDatabase();
+    }
+
+    private void SetCheckboxes()
+    {
+        /*checkBoxItems = CategoriesHandles.GetListOfCheckBoxes();
+        CheckBoxListBox.ItemsSource = checkBoxItems;*/
     }
     
 }

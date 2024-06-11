@@ -78,4 +78,26 @@ public static class ProfileDBMS
             }
         }
     }
+    /// <summary>
+    /// Makes a verification that everything is in order
+    /// </summary>
+    public static void CheckAllProfile()
+    {
+        using (var context = new ProfileDbContext())
+        {
+            foreach (var profile in context.Profiles)
+            {
+                if (Folder.CheckIfPathStillExist(profile.Path))
+                {
+                    profile.NumberMods = Folder.CountFoldersInPath(profile.Path);
+                }
+                else
+                {
+                    //Delete profile
+                    context.Profiles.Remove(profile);
+                }
+                
+            }
+        }
+    }
 }

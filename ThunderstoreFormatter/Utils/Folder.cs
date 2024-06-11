@@ -17,4 +17,16 @@ public static class Folder
             return 0;
         }
     }
+    public static bool CheckIfPathStillExist(string path)
+    {
+        if (Directory.Exists(path))
+        {
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("The specified path does not exist.");
+            return false;
+        }
+    }
 }

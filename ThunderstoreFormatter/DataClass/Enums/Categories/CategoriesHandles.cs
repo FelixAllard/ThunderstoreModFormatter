@@ -55,7 +55,15 @@ namespace ThunderstoreFormatter.DataClass.Enums{
         /// <returns>True if the category name is in the ban list, otherwise false.</returns>
         public static bool IsBanned(string input)
         {
-            return AllCategories.Contains(input) && !CurrentlyDisplayedCategories.ContainsValue(input);
+            foreach (var category in CurrentlyDisplayedCategories)
+            {
+                if (input == category.Value)
+                {
+                    return false;
+                }
+            }
+            return true;
+            
         }
 
         /// <summary>
@@ -104,7 +112,11 @@ namespace ThunderstoreFormatter.DataClass.Enums{
         }
         
         
-        
+        /// <summary>
+        /// Get a all the categories sorted and the mod reference inside
+        /// </summary>
+        /// <param name="ModList"></param>
+        /// <returns></returns>
         public static List<Category> GetAllCategory(List<Mod> ModList)
         {
             categoryList = new List<Category>();
@@ -115,8 +127,8 @@ namespace ThunderstoreFormatter.DataClass.Enums{
                 //FOR ALL THE MODS CATEGORIES
                 foreach (var category in mod.Categories)
                 {
-                    if(CategoriesHandles.IsBanned(category))continue;
-                    //FOR ALL THE CURRENTLY EXISTNG CATEGORIES
+                    if(CategoriesHandles.IsBanned(category.ToString()))continue;
+                    //FOR ALL THE CURRENTLY EXISTING CATEGORIES
                     bool categoryExist = false;
                     foreach (var categoryFromList in categoryList)
                     {
@@ -136,6 +148,22 @@ namespace ThunderstoreFormatter.DataClass.Enums{
                 }
             }
             return categoryList;
+        }
+
+        public static List<CheckBoxItem> GetListOfCheckBoxes()
+        {
+            List<CheckBoxItem> returnList = new List<CheckBoxItem>();
+            int index = 0;
+            foreach (var shownCategory in categoryList)
+            {
+                index++;
+                returnList
+                    .Add(new CheckBoxItem {
+                    CheckboxText = shownCategory.CategoryName, 
+                    Number = shownCategory.NumberInCategory.ToString()
+                });
+            }
+            return returnList;
         }
     }
 }

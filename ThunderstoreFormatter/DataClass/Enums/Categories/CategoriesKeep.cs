@@ -2,8 +2,8 @@
 
 public enum CategoriesKeep
 {
-    Tools,
-    Misc,
+    //Tools,
+    //Misc,
     Suits,
     Equipment,
     Monsters,
