@@ -44,7 +44,7 @@
             VerticalAlignment="Top"
             >
             <ListView x:Name="ViewProfile"
-                      Width="300"
+                      Width="350"
                       Height="350"
                       HorizontalAlignment="Left"
                       Margin="45,45,5,0">
@@ -68,7 +68,7 @@
                         />
                         <GridViewColumn
                             Header="Path"
-                            Width="60"
+                            Width="110"
                             DisplayMemberBinding="{Binding Path}"
                         />
                         <!-- Add more columns as needed -->
@@ -182,7 +182,7 @@
         </StackPanel>
         <StackPanel>
             <Label 
-                Content="Thunderstore Formater [BETA 1.0.0]" 
+                Content="Thunderstore Formater [1.0.0]" 
                 Foreground="White"
                 FontSize="30"
             />

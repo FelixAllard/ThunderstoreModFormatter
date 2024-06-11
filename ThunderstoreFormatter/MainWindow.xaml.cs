@@ -26,7 +26,7 @@ namespace ThunderstoreFormatter;
 public partial class MainWindow : Window
     {
         public List<Mod> allRegisteredMods { get; set; } = new List<Mod>();
-
+        private List<CheckBoxItem> _checkBoxItems;
         public MainWindow()
         {
             // Initialize Database
@@ -47,7 +47,6 @@ public partial class MainWindow : Window
             ProfileDBMS.CheckAllProfile();
             RetrieveInformationDatabase();
             PopulateCategoriesListBox();
-            CheckCategories();
         }
 
         private void UpdateProgressBar(int progressValue)
@@ -98,6 +97,9 @@ public partial class MainWindow : Window
         {
             if (ViewProfile.SelectedItem != null)
             {
+                //Update Checked :
+                UpdateDisplayedCategories(GetCheckBoxItemsFromListBox(CheckBoxListBox));
+                
                 // Get the selected item
                 Profile selectedProfile = ViewProfile.SelectedItem as Profile;
                 // Extract the ID of the selected item
@@ -140,29 +142,57 @@ public partial class MainWindow : Window
         private void PopulateCategoriesListBox()
         {
             var enumValues = Enum.GetValues(typeof(Categories)).Cast<Categories>();
-            var checkBoxItems = enumValues.Select(category => new CheckBoxItem { Content = category.ToString() }).ToList();
-            CheckBoxListBox.ItemsSource = checkBoxItems;
-        }
+            _checkBoxItems = enumValues.Select(category => new CheckBoxItem { Content = category.ToString(), IsChecked = false }).OrderBy(item => item.Content).ToList();
 
-        private void CheckCategories()
-        {
-            foreach (var item in CheckBoxListBox.Items)
+            List<Categories> currentCategoryList = CategoriesHandles.CurrentlyDisplayedCategories.Keys.ToList();
+
+            foreach (var checkBoxItem in _checkBoxItems)
             {
-                if (item is CheckBoxItem checkBoxItem && Enum.TryParse(checkBoxItem.Content.ToString(), out Categories category))
+                if (Enum.TryParse(checkBoxItem.Content, out Categories category) && currentCategoryList.Contains(category))
                 {
-                    string stringValue;
-                    bool isChecked = CategoriesHandles.CurrentlyDisplayedCategories.TryGetValue(category, out stringValue) &&
-                                     bool.TryParse(stringValue, out bool boolValue) &&
-                                     boolValue;
-                    checkBoxItem.IsChecked = isChecked;
+                    checkBoxItem.IsChecked = true;
+                }
+            }
+
+            CheckBoxListBox.ItemsSource = _checkBoxItems;
+        }
+        public static void UpdateDisplayedCategories(List<CheckBoxItem> checkBoxItems)
+        {
+            CategoriesHandles.CurrentlyDisplayedCategories.Clear();
+
+            foreach (var checkBoxItem in checkBoxItems)
+            {
+                if (Enum.TryParse(checkBoxItem.Content, out Categories category) && checkBoxItem.IsChecked)
+                {
+                    string displayName = CategoriesHandles.DisplayNames.ContainsKey(category) ? CategoriesHandles.DisplayNames[category] : category.ToString();
+                    CategoriesHandles.CurrentlyDisplayedCategories[category] = displayName;
                 }
             }
         }
+        private List<CheckBoxItem> GetCheckBoxItemsFromListBox(ListBox checkBoxListBox)
+        {
+            var checkBoxItems = new List<CheckBoxItem>();
+
+            foreach (var item in checkBoxListBox.Items)
+            {
+                if (item is CheckBoxItem checkBoxItem)
+                {
+                    checkBoxItems.Add(checkBoxItem);
+                }
+            }
+
+            return checkBoxItems;
+        }
+
+
+
+
         
 
 
-        public class CheckBoxItem : CheckBox
+        public class CheckBoxItem
         {
+            public string Content { get; set; }
             public bool IsChecked { get; set; }
         }
     }

@@ -10,7 +10,7 @@ namespace ThunderstoreFormatter.DataClass.Enums{
         public static List<Category> categoryList;
 
         // Dictionary to map enum values to their desired display names (custom ones only)
-        private static readonly Dictionary<Categories, string> DisplayNames = new Dictionary<Categories, string>
+        public static readonly Dictionary<Categories, string> DisplayNames = new Dictionary<Categories, string>
         {
             { Categories.ServerSide, "Server-side" },
             { Categories.AssetReplacements, "Asset Replacements" },
@@ -149,21 +149,6 @@ namespace ThunderstoreFormatter.DataClass.Enums{
             }
             return categoryList;
         }
-
-        public static List<CheckBoxItem> GetListOfCheckBoxes()
-        {
-            List<CheckBoxItem> returnList = new List<CheckBoxItem>();
-            int index = 0;
-            foreach (var shownCategory in categoryList)
-            {
-                index++;
-                returnList
-                    .Add(new CheckBoxItem {
-                    CheckboxText = shownCategory.CategoryName, 
-                    Number = shownCategory.NumberInCategory.ToString()
-                });
-            }
-            return returnList;
-        }
     }
+   
 }
