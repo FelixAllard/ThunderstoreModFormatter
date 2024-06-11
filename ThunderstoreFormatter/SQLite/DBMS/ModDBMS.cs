@@ -1,4 +1,5 @@
-﻿using ThunderstoreFormatter.DataClass;
+﻿using Microsoft.Data.Sqlite;
+using ThunderstoreFormatter.DataClass;
 using ThunderstoreFormatter.DataClass.External_Call;
 using ThunderstoreFormatter.SQLite.DatabaseContext;
 using ThunderstoreFormatter.SQLite.Model;
@@ -70,6 +71,35 @@ public static class ModDBMS
         }
 
         return modList;
+    }
+    public static void DropAllTables()
+    {
+        using (var connection = new SqliteConnection("Data Source = Sample.db"))
+        {
+            connection.Open();
+
+            // Retrieve the connection string from the opened connection
+            var connectionString = connection.DataSource;
+
+            var command = connection.CreateCommand();
+            command.CommandText = @"
+                    SELECT 'DROP TABLE IF EXISTS ' || name || ';' 
+                    FROM sqlite_master 
+                    WHERE type = 'table';";
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var dropTableCommand = reader.GetString(0);
+                    using (var dropTableCommandExecutor = connection.CreateCommand())
+                    {
+                        dropTableCommandExecutor.CommandText = dropTableCommand;
+                        dropTableCommandExecutor.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
     }
     
 }

@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Data.Sqlite;
 using ThunderstoreFormatter.DataClass;
+using ThunderstoreFormatter.DataClass.Enums;
 using ThunderstoreFormatter.SQLite.DatabaseContext;
 using ThunderstoreFormatter.SQLite.Model;
 using ThunderstoreFormatter.Utils;
@@ -31,10 +32,10 @@ public partial class MainWindow : Window
     {
         //Initialize Database
         var connection = new SqliteConnection("Data Source = Sample.db");
-
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
-
         connection.Open();
+        
+        
         //Initialise Page
         InitializeComponent();
         
@@ -47,8 +48,6 @@ public partial class MainWindow : Window
         };
          
          
-         
-         
         // Set the data context of the ListBox to the collection of items
         CheckBoxListBox.ItemsSource = checkBoxItems;
         
@@ -56,7 +55,6 @@ public partial class MainWindow : Window
         InitialiseDatabaseIfNotExist();
         RetrieveInformationDatabase();
     }
-
     public void RetrieveInformationDatabase()
     {
         ViewProfile.ItemsSource = ProfileDBMS.RetrieveAllFromDatabase();
@@ -114,12 +112,13 @@ public partial class MainWindow : Window
             // Extract the ID of the selected item
             String selectedProfilePath = selectedProfile.Path;
             //TODO remake this
-            List<String> allTheModsFullName = Extractor.GetManifestNames(selectedProfilePath);
-            List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName);
+            List<String> allTheModsFullName = Extractor.GetManifestFullNames(selectedProfilePath); //OK
+            List<Mod> allTheMods = ModDBMS.GetAllModFromDatabaseByFullName(allTheModsFullName); //NOT OK
+            List<Category> categories = CategoriesHandles.GetAllCategory(allTheMods);
             
             
             //Put the text to what it is
-            FinalResult.Text = Formaters.FormatForDiscord(allTheMods);
+            FinalResult.Text = Formaters.FormatForDiscord(categories);
         }
     }
 
@@ -151,4 +150,5 @@ public partial class MainWindow : Window
         ProfileDBMS.InitializeDatabase();
         ModDBMS.InitializeDatabase();
     }
+    
 }
