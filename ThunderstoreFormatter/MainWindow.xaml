@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ThunderstoreFormatter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
+        Title="Thunderstore Formatter" Height="450" Width="800" ResizeMode="NoResize">
     <Window.Icon>
         <BitmapImage UriSource="C:\Users\Felix\Desktop\LethalCompany\ThunderstoreFormatter\ThunderstoreFormatter\Ressources\Images\Icon.png"/>
     </Window.Icon>
@@ -82,8 +82,8 @@
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
                 Width="200" 
-                Height="200"
-                     
+                Height="350"
+                SelectionMode="Multiple"
                 Background="White" 
                 BorderBrush="Black"
                 BorderThickness="1" 
@@ -91,45 +91,63 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="{Binding CheckboxText}" Margin="5"/>
-                            <Label Content="{Binding Number}" Margin="5"/>
+                            <CheckBox Content="{Binding Content}" IsChecked="{Binding IsChecked}" Margin="5"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        
-
-        <StackPanel 
-            Orientation="Horizontal" 
+        <StackPanel
+            Orientation="Vertical"
             HorizontalAlignment="Stretch" 
             VerticalAlignment="Bottom" 
-            Margin="45,0,0,0">
-            <Button 
-                x:Name="Delete"
-                Content="Remove" 
-                Width="100" 
-                Margin="0"
-                Background="DarkRed"
-                Click="Delete_OnClick"
+            Margin="45,0,0,0"
+            >
+            <Grid>
+                <ProgressBar 
+                    Name="progressBar" 
+                    Height="20" 
+                    Width="300"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top" 
+                    Margin="10" 
+                    Minimum="0" 
+                    Maximum="100"/>
+            </Grid>
+            <StackPanel 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Bottom" 
+                Margin="45,0,0,0">
+            
+                <Button 
+                    x:Name="Delete"
+                    Content="Remove" 
+                    Width="100" 
+                    Margin="0"
+                    Background="DarkRed"
+                    Click="Delete_OnClick"
                 />
-            <Button 
-                x:Name="AddProfileButton"
-                Content="Add" 
-                Width="100" 
-                Margin="0"
-                Background="GreenYellow"
-                Click="AddProfileButton_OnClick"
+                <Button 
+                    x:Name="AddProfileButton"
+                    Content="Add" 
+                    Width="100" 
+                    Margin="0"
+                    Background="GreenYellow"
+                    Click="AddProfileButton_OnClick"
                 />
-            <Button 
-                x:Name="ShowButton"
-                Content="Show" 
-                Width="100" 
-                Margin="0"
-                Click="ButtonShow_OnClick"
+                <Button 
+                    x:Name="ShowButton"
+                    Content="Show" 
+                    Width="100" 
+                    Margin="0"
+                    Click="ButtonShow_OnClick"
                 />
             
+            </StackPanel>
         </StackPanel>
+
+        
         <StackPanel
             HorizontalAlignment="Right"
             Width="200"

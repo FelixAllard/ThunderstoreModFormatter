@@ -6,9 +6,12 @@ namespace ThunderstoreFormatter.Utils;
 
 public class Http
 {
-
-    public static async Task AddAllToDatabase(List<string> listOfMods)
+    public static Action<int> ProgressUpdate;
+    public static void AddAllToDatabase(List<string> listOfMods)
     {
+        int totalMods = listOfMods.Count;
+        int processedMods = 0;
+        
         foreach (var mod in listOfMods)
         {
             string[] parts = mod.Split('-');
@@ -18,7 +21,7 @@ public class Http
                 string firstPart = parts[0];
                 string secondPart = parts[1];
 
-                //Check if the mod is in the Database, if it is not, then get the thing online!
+                // Check if the mod is in the Database, if it is not, then get the thing online!
                 if (!ModDBMS.CheckIfModIsInDatabase(mod))
                 {
                     GetModInfo(firstPart, secondPart);
@@ -30,7 +33,12 @@ public class Http
             {
                 Console.WriteLine("Invalid input format.");
             }
-            
+
+            processedMods++;
+            int progressValue = (processedMods * 100) / totalMods;
+
+            // Call the delegate to update progress
+            ProgressUpdate?.Invoke(progressValue);
         }
     }
     //TODO make progress bar for the loading!
@@ -41,8 +49,6 @@ public class Http
     /// <param name="packageName"></param>
     public static void GetModInfo(string nameSpace, string packageName)
     {
-        Console.WriteLine("HelloWorld");
-    
         try
         {
             using var httpClient = new HttpClient();
